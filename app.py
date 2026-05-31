@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from deployed_database import load_data
+import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
@@ -18,7 +18,16 @@ st.set_page_config(
 # -------------------------
 @st.cache_data
 def get_data():
-    return load_data()
+
+    df = pd.read_csv(
+        "data/cleaned_ecommerce.csv"
+    )
+
+    df['order_date'] = pd.to_datetime(
+        df['order_date']
+    )
+
+    return df
 
 df = get_data()
 
